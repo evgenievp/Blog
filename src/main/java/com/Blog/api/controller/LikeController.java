@@ -1,9 +1,9 @@
 package com.Blog.api.controller;
 
 import com.Blog.api.dto.UserDto;
-import com.Blog.api.model.Users;
+import com.Blog.api.service.AuthService;
 import com.Blog.api.service.LikeService;
-import lombok.RequiredArgsConstructor;
+import com.Blog.api.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +11,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/likes")
-@RequiredArgsConstructor
 public class LikeController {
     private final LikeService likeService;
+    private final PostService postService;
+    private final AuthService authService;
 
-    @PostMapping("/posts/{postId}/toggle")
-    public ResponseEntity<LikeResponse> toggleLike(@PathVariable int postId) {
-        Users currentUser = getCurrentUser();
-
-        LikeResponse reponse = likeService.toggleLike(postId, currentUser);
-
-        return ResponseEntity.ok(response);
+    public LikeController(PostService postService,
+                          LikeService likeService,
+                          AuthService authService) {
+        this.postService = postService;
+        this.likeService = likeService;
+        this.authService = authService;
     }
+
+    @PostMapping("/like/{postId}/{userId}")
+    public ResponseEntity<String> like(@PathVariable int postId,
+                                       @PathVariable int userId) {
+        this.likeService.likeOrUnlike(userId, postId);
+        return ResponseEntity.status(200).body("liked");
+    }
+
 
     @GetMapping("/posts/{postId}/count")
     public ResponseEntity<Integer> getLikesCount(@PathVariable int postId) {
