@@ -26,17 +26,17 @@ public class LikeService {
     private final AuthRepo authRepo;
 
     public void likeOrUnlike(int userId, int postId) {
-        Optional<Users> opt = this.authRepo.findById(userId);
-        Optional<Post> optPost = this.postRepo.findById(postId);
-        if (opt.isEmpty() || opt.isEmpty()) {
-            throw new EntityNotFoundException("user or post is missing");
+        Users user = authRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("user"));
+
+        Post post = postRepo.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("post"));
+
+        Optional<Like> existing = likeRepo.findByPostAndUser(post, user);
+
+        if (existing.isPresent()) {
+            likeRepo.delete(existing.get());
         }
-        Users user = opt.get();
-        Post post = optPost.get();;
-        Like like = new Like();
-        like.setPost(post);
-        like.setUser(user);
-        this.likeRepo.save(like);
     }
 
     public List<Like> getAllLikes() {
@@ -45,8 +45,10 @@ public class LikeService {
 
 
     public Integer getLikesCount(int postId) {
-        return this.likeRepo.countByPost(postId);
+        Post post = postRepo.getReferenceById(postId);
+        return likeRepo.countByPost(post);
     }
+
 
     public LikeDto toDto(Like like) {
         return new LikeDto(
