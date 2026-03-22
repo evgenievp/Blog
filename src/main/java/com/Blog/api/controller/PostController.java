@@ -1,7 +1,6 @@
 package com.Blog.api.controller;
 
 import com.Blog.api.dto.PostDto;
-import com.Blog.api.dto.UserDto;
 import com.Blog.api.service.AuthService;
 import com.Blog.api.service.PostService;
 import org.springframework.http.ResponseEntity;

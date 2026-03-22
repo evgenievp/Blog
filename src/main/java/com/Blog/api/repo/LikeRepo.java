@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface LikeRepo extends JpaRepository<Like, Long> {
     Integer countByPost(int id);
-    boolean existByPostAndUser(Post post, Users user);
+    boolean existsByPostAndUser(Post post, Users user);
     void deleteByPostAndUser(Post post, Users user);
     Integer countByPost(Post post);
     Optional<Like> findByPostAndUser(Post post, Users user);

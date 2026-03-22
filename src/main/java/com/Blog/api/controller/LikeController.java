@@ -6,7 +6,7 @@ import com.Blog.api.service.LikeService;
 import com.Blog.api.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,13 +24,13 @@ public class LikeController {
         this.authService = authService;
     }
 
-    @PostMapping("/like/{postId}/{userId}")
+    @PostMapping("/like/{postId}")
     public ResponseEntity<String> like(@PathVariable int postId,
-                                       @PathVariable int userId) {
-        this.likeService.likeOrUnlike(userId, postId);
-        return ResponseEntity.status(200).body("liked");
+                                       Principal principal) {
+        String username = principal.getName();
+        this.likeService.likeOrUnlike(username, postId);
+        return ResponseEntity.status(200).body("ok");
     }
-
 
     @GetMapping("/posts/{postId}/count")
     public ResponseEntity<Integer> getLikesCount(@PathVariable int postId) {

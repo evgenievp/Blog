@@ -31,15 +31,13 @@ public class PostService {
 
     public PostDto toDto(Post post) {
         return new PostDto(
-                post.getAuthor(),
-                post.getLikes()
+                post.getAuthor()
         );
     }
 
     public Post toPost(PostDto dto) {
         return new Post(
-                dto.getAuthor(),
-                dto.getLikes()
+                dto.getAuthor()
         );
     }
 

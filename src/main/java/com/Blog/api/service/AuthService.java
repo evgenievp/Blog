@@ -43,4 +43,12 @@ public class AuthService {
     private UserDto toDto(Users user) {
         return new UserDto();
     }
+
+    public UserDto findByUsername(String username) {
+        Optional<Users> opt = this.authRepo.findByUsername(username);
+        if (opt.isEmpty()) {
+            throw new EntityNotFoundException("no such user");
+        }
+        return this.toDto(opt.get());
+    }
 }

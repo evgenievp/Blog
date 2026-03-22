@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class LikeService {
 
@@ -25,17 +24,28 @@ public class LikeService {
     private final PostRepo postRepo;
     private final AuthRepo authRepo;
 
-    public void likeOrUnlike(int userId, int postId) {
-        Users user = authRepo.findById(userId)
+    public LikeService(LikeRepo likeRepo, PostRepo postRepo, AuthRepo authRepo) {
+        this.likeRepo = likeRepo;
+        this.postRepo = postRepo;
+        this.authRepo = authRepo;
+    }
+
+    public void likeOrUnlike(String username, int postId) {
+        Users user = authRepo.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("user"));
 
         Post post = postRepo.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("post"));
 
         Optional<Like> existing = likeRepo.findByPostAndUser(post, user);
-
         if (existing.isPresent()) {
             likeRepo.delete(existing.get());
+        }
+        else {
+            Like like = new Like();
+            like.setUser(user);
+            like.setPost(post);
+            this.likeRepo.save(like);
         }
     }
 

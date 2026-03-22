@@ -18,10 +18,8 @@ public class Post {
     private int id;
     @ManyToOne
     private Users author;
-    private int likes;
 
-    public Post(Users author, int likes) {
+    public Post(Users author) {
         this.author = author;
-        this.likes = likes;
     }
 }
