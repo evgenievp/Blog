@@ -31,18 +31,20 @@ public class PostService {
 
     public PostDto toDto(Post post) {
         return new PostDto(
-                post.getAuthor()
+                post.getAuthor().getUsername(),
+                post.getContent()
         );
     }
 
     public Post toPost(PostDto dto) {
         return new Post(
-                dto.getAuthor()
+                this.authRepo.findByUsername(dto.getAuthorUsername()).get(),
+                dto.getContent()
         );
     }
 
-    public PostDto post(int authorId, PostDto postDto) {
-        Optional<Users> opt = this.authRepo.findById(authorId);
+    public PostDto post(String username, PostDto postDto) {
+        Optional<Users> opt = this.authRepo.findByUsername(username);
         if (opt.isEmpty()) {
             throw new EntityNotFoundException("no such user");
         }

@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +24,13 @@ public class LikeService {
     private final LikeRepo likeRepo;
     private final PostRepo postRepo;
     private final AuthRepo authRepo;
+    private final AuthService authService;
 
-    public LikeService(LikeRepo likeRepo, PostRepo postRepo, AuthRepo authRepo) {
+    public LikeService(LikeRepo likeRepo, PostRepo postRepo, AuthRepo authRepo, AuthService authService) {
         this.likeRepo = likeRepo;
         this.postRepo = postRepo;
         this.authRepo = authRepo;
+        this.authService = authService;
     }
 
     public void likeOrUnlike(String username, int postId) {
@@ -76,6 +79,11 @@ public class LikeService {
     }
 
     public List<UserDto> getUsersWhoLiked(int postId) {
-        return this.postRepo.findAllById(postId);
+        List<Users> users = this.postRepo.findUsersByPostId(postId);
+        List<UserDto> userDtos = new LinkedList<>();
+        for (var user : users) {
+            userDtos.add(authService.toDto(user));
+        }
+        return userDtos;
     }
 }

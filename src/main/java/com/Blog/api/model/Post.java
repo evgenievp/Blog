@@ -18,8 +18,10 @@ public class Post {
     private int id;
     @ManyToOne
     private Users author;
+    private String content;
 
-    public Post(Users author) {
+    public Post(Users author, String content) {
         this.author = author;
+        this.content = content;
     }
 }

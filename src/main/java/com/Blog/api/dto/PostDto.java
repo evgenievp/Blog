@@ -9,16 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostDto {
-    private Users author;
-    private int likes = 0;
+    private String authorUsername;
+    private String content;
 
-    public PostDto(Users author, int likes) {
-        this.author = author;
-        this.likes = likes;
-    }
 
-    public PostDto(Users author) {
-        this.author = author;
-        this.likes = 0;
+    public PostDto(String authorUsername, String content) {
+        this.authorUsername = authorUsername;
+        this.content = content;
     }
 }
