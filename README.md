@@ -28,14 +28,14 @@ Security:
 API Endpoints:
 
 POST
-   /api/users/register
-   /api/users/login
-   /api/posts
-   /api/likes/like/{postId}
+ -    /api/users/register
+ -    /api/users/login
+ =    /api/posts
+ -    /api/likes/like/{postId}
 
 GET
-    /api/likes/posts/{postId}/count
-    /api/likes/posts/{postId}/users
+-   /api/likes/posts/{postId}/count
+-   /api/likes/posts/{postId}/users
 
 How to run:
 - Clone the repository
