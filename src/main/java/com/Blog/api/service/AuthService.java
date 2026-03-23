@@ -8,13 +8,9 @@ import com.Blog.api.dto.UserDto;
 import com.Blog.api.model.Users;
 import com.Blog.api.repo.AuthRepo;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.Optional;
 
 @Service
