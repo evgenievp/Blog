@@ -87,7 +87,13 @@ Make sure Microsoft SQL Server is running.
 
 Run the Spring Boot application.
 
-Test the endpoints using Postman or another REST client.
+
+Testing:
+
+The project includes unit tests written with JUnit and Mockito. The tests cover parts of the service layer and verify the expected behavior of the application logic without relying on real external dependencies.
+
+The project also includes several unit tests using JUnit and Mockito, mainly to practice backend testing and service-layer verification.
+
 
 Notes:
 
